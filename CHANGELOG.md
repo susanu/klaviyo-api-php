@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 NOTE: For more granular API-specific changes, please see our [API Changelog](https://developers.klaviyo.com/en/docs/changelog_)
 
+## [20.0.0] - revision 2026-07-15
+### Added
+- Custom Objects API
+  - Full CRUD support across four groups of endpoints:
+    - Object Types: `$klaviyo->CustomObjects->createObjectType()`, `$klaviyo->CustomObjects->getObjectType()`, `$klaviyo->CustomObjects->getObjectTypes()`, and `$klaviyo->CustomObjects->deleteObjectType()`.
+    - Object Schemas: `$klaviyo->CustomObjects->createObjectSchema()`, `$klaviyo->CustomObjects->getObjectSchema()`, and `$klaviyo->CustomObjects->updateObjectSchema()`, plus schema versions via `$klaviyo->CustomObjects->getCurrentSchemaForObjectType()`, `$klaviyo->CustomObjects->getDraftSchemaForObjectType()`, and `$klaviyo->CustomObjects->getSchemaVersionsForObjectType()`.
+    - Source Mappings: `$klaviyo->CustomObjects->getSourceMapping()`, `$klaviyo->CustomObjects->updateSourceMapping()`, `$klaviyo->CustomObjects->getSourceMappingForObjectSchema()`, and `$klaviyo->CustomObjects->getSourceMappingIdForObjectSchema()`.
+    - Object Records: `$klaviyo->CustomObjects->getObjectRecord()`, `$klaviyo->CustomObjects->getRecordsForObjectType()`, `$klaviyo->CustomObjects->getRecordIdsForObjectType()`, and `$klaviyo->CustomObjects->bulkDeleteObjectRecords()`.
+- Conversations API
+  - Added support for creating conversation messages with `$klaviyo->Conversations->createConversationMessage()`.
+- Client API
+  - Added `$klaviyo->Client->getClientIpAllowlist()` to retrieve your account's client-side IP allowlist.
+- Flows API
+  - Added `$klaviyo->Flows->deleteFlowAction()` to remove an action from a flow.
+### Changed
+- **Breaking:** Conversations API
+  - Conversation endpoints are now plural — e.g. `$klaviyo->Profiles->getConversationForProfile()` is now `$klaviyo->Profiles->getConversationsForProfile()` (and `$klaviyo->Profiles->getConversationIdForProfile()` is now `$klaviyo->Profiles->getConversationIdsForProfile()`), as well as the relevant relationship methods and parameters.
+  - Response shapes are now lists, instead of single objects.
+- Events API
+  - Added a new `backfill` flag on `$klaviyo->Events->createEvent()` & `$klaviyo->Events->bulkCreateEvents()`, which records historical events without triggering flows.
+  - `$klaviyo->Events->getEvents()` now returns events with unresolvable metrics by default, matching `$klaviyo->Events->getEvent()`. Use the new `has(metric)` filter to exclude them.
+
 ## [19.0.0] - revision 2026-04-15
 ### Added
 - Conversations API
