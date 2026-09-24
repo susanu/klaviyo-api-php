@@ -55,6 +55,27 @@ class ObjectSerializer
     }
 
     /**
+     * Wrapper for json_encode that throws when an error occurs.
+     *
+     * Replaces \GuzzleHttp\Utils::jsonEncode(), which was removed in Guzzle 8.
+     *
+     * @param mixed $value   The value being encoded
+     * @param int   $options JSON encode option bitmask
+     * @param int   $depth   Set the maximum depth. Must be greater than zero.
+     *
+     * @throws \InvalidArgumentException if the JSON cannot be encoded.
+     */
+    public static function jsonEncode($value, int $options = 0, int $depth = 512): string
+    {
+        $json = \json_encode($value, $options, $depth);
+        if (\JSON_ERROR_NONE !== \json_last_error()) {
+            throw new \InvalidArgumentException('json_encode error: ' . \json_last_error_msg());
+        }
+
+        return $json;
+    }
+
+    /**
      * Serialize data
      *
      * @param mixed  $data   the data to serialize
